@@ -100,7 +100,7 @@ class _InputPageState extends State<InputPage> {
             color: bottomContainerColor,
             child: Center(
                 child: Text(
-              "CALCULATE",
+              "CALCULATE BMI",
               style: TextStyle(fontSize: 24),
             )),
           )
