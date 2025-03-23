@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'input_card.dart';
 import 'gender_card.dart';
-
-const Color activeCardColor = Color(0xFF1D1E33);
-const Color inactiveCardColor = Color(0xFF111328);
-const Color bottomContainerColor = Color(0xFFEB1555);
-const double bottomContainerHeight = 80;
+import 'constants.dart';
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -16,8 +12,9 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  Color maleCardColor = inactiveCardColor;
-  Color femaleCardColor = inactiveCardColor;
+  Color maleCardColor = kInactiveCardColor;
+  Color femaleCardColor = kInactiveCardColor;
+  int height = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -31,41 +28,38 @@ class _InputPageState extends State<InputPage> {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Row(
               children: [
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
+                  child: InputCard(
+                    onPress: () {
                       setState(() {
-                        maleCardColor = activeCardColor;
-                        femaleCardColor = inactiveCardColor;
+                        maleCardColor = kActiveCardColor;
+                        femaleCardColor = kInactiveCardColor;
                       });
                     },
-                    child: InputCard(
-                      bgColor: maleCardColor,
-                      cardChild: GenderCard(
-                        genderIcon: FontAwesomeIcons.mars,
-                        genderText: "MALE",
-                      ),
+                    bgColor: maleCardColor,
+                    cardChild: GenderCard(
+                      genderIcon: FontAwesomeIcons.mars,
+                      genderText: "MALE",
                     ),
                   ),
                 ),
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
+                  child: InputCard(
+                    onPress: () {
                       setState(() {
-                        femaleCardColor = activeCardColor;
-                        maleCardColor = inactiveCardColor;
+                        femaleCardColor = kActiveCardColor;
+                        maleCardColor = kInactiveCardColor;
                       });
                     },
-                    child: InputCard(
-                      bgColor: femaleCardColor,
-                      cardChild: GenderCard(
-                        genderIcon: FontAwesomeIcons.venus,
-                        genderText: "FEMALE",
-                      ),
+                    bgColor: femaleCardColor,
+                    cardChild: GenderCard(
+                      genderIcon: FontAwesomeIcons.venus,
+                      genderText: "FEMALE",
                     ),
                   ),
                 ),
@@ -74,7 +68,41 @@ class _InputPageState extends State<InputPage> {
           ),
           Expanded(
             child: InputCard(
-              bgColor: activeCardColor,
+              bgColor: kActiveCardColor,
+              cardChild: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'HEIGHT',
+                    style: kLabelTextStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        height.toString(),
+                        style: kNumbersTextSyle,
+                      ),
+                      Text(
+                        'cm',
+                        style: kLabelTextStyle,
+                      )
+                    ],
+                  ),
+                  Slider(
+                      value: height.toDouble(),
+                      min: 120.0,
+                      max: 220.0,
+                      activeColor: kBottomContainerColor,
+                      onChanged: (double newValue) {
+                        setState(() {
+                          height = newValue.round();
+                        });
+                      })
+                ],
+              ),
             ),
           ),
           Expanded(
@@ -82,12 +110,12 @@ class _InputPageState extends State<InputPage> {
               children: [
                 Expanded(
                   child: InputCard(
-                    bgColor: activeCardColor,
+                    bgColor: kActiveCardColor,
                   ),
                 ),
                 Expanded(
                   child: InputCard(
-                    bgColor: activeCardColor,
+                    bgColor: kActiveCardColor,
                   ),
                 ),
               ],
@@ -96,8 +124,8 @@ class _InputPageState extends State<InputPage> {
           Container(
             margin: EdgeInsets.only(top: 10),
             width: double.infinity,
-            height: bottomContainerHeight,
-            color: bottomContainerColor,
+            height: kBottomContainerHeight,
+            color: kBottomContainerColor,
             child: Center(
                 child: Text(
               "CALCULATE",
